@@ -143,5 +143,21 @@ mount /dev/cdrom /root/mycdrom 메모리에 cdrom에 있는 정보를 root아래
 
 
 
-# 3
+
+
+# 3 CentOS 7 에 자바 및 이클립스 설치
+
+
+
+## 3.1 자바 설치
+
+> jdk파일을 직접 다운 받거나 wget을 이용해 다운 받은 후 tar xvf 를 이용해 압축을 푼다. 그 후 다운받은 파일을 etc 폴더에 옮긴다. 그 후 기존에 있단 usr/bin 아래의 java 심볼릭을 삭제하고 설치한 etc /jdk1.8.0/bin 아래의 자바에 심볼릭 링크를 해준다.
+
+## 3.2 eclipse 설치
+
+> 그냥 다운 받고 압축 풀면 된다. (최신버젼은 왜 안되는지 아직 모르겠음)
+
+## 3.2 tomcat 설치
+
+> 자바와 동일하게 다운받고 etc 폴더로 옮긴다. 그 후 firewall-config 에 들어가서 http포트를 열어준다. 또한 톰캣 폴더의 conf 폴더 안에 server.xml 파일의 내용을 보면 디폴트로 http 포트를 8080 으로 설정해 놨는데 이를 80으로 수정해준다. 그후 톰캣 폴더 안의 bin 에 startup.sh 와 shoudown.sh를 각각 starttomcat, stoptomcat으로 심볼릭 링크를 걸어준다.
 
