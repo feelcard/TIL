@@ -141,7 +141,9 @@ mount /dev/cdrom /root/mycdrom 메모리에 cdrom에 있는 정보를 root아래
 
 ```
 
+## 2.6 tomcat을 이용해 서버열기
 
+> 생성한 프로젝트를 tomcat이 설치된 폴더에 war파일 형태로 etc/apache-tomcat-9.0.22/webapps 폴더에 넣어주고 브라우저에서 해당 서버의 ip/프로젝트명 으로 접속한다.
 
 
 
