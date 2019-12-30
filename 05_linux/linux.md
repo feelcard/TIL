@@ -163,3 +163,15 @@ mount /dev/cdrom /root/mycdrom 메모리에 cdrom에 있는 정보를 root아래
 
 > 자바와 동일하게 다운받고 etc 폴더로 옮긴다. 그 후 firewall-config 에 들어가서 http포트를 열어준다. 또한 톰캣 폴더의 conf 폴더 안에 server.xml 파일의 내용을 보면 디폴트로 http 포트를 8080 으로 설정해 놨는데 이를 80으로 수정해준다. 그후 톰캣 폴더 안의 bin 에 startup.sh 와 shoudown.sh를 각각 starttomcat, stoptomcat으로 심볼릭 링크를 걸어준다.
 
+# 4. tomcat server PC , DB PC 구축하기
+
+
+
+## 4.1 tomcat server PC 구축
+
+> 먼저 vmware를 사용하면 기존의 ip는 가상 ip이기 때문에 외부에서 접속할 수 없다 따라서 ip 서브넷마스크, DNS를 모두 외부에서 접속할 수 있는 형태로 바꾸어준다 설정은 /etc/sysconfig/network-scripts/에 있는 네트워크 환경설정이 담긴 파일을 수정해준다(수정한 뒤에는 systemctl restart network을 잊지말자)
+
+## 4.2 DB PC 구축
+
+> tomcat을 설치한거처럼 오라클을 설치해준다. 설치가 끝나면 tomcat서버의 프로젝트파일(war파일)의 spring.xml(스프링 프레임워크가 아닌 다른 DB접속 환경이라면 DB정보가 담겨있는 파일을 수정해야한다.) 내부의 ip와 스키마 id/pw를 설정해준다.(추후 MariaDB에서도 해볼 예정)
+
