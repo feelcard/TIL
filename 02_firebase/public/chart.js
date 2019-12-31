@@ -1,9 +1,21 @@
 
+
 var db = firebase.firestore();
+
+var collection = "";
+var doc="";
+
+function convertDate(timestamp){
+
+    return new firebase.firestore.Timestamp(timestamp.seconds, timestamp.nanoseconds).toDate()
+}
 
 db.collection("study").doc("test1").get().then(function (doc) {
     var stat = doc.data().status;
-
+    var realtime= new Date();
+    console.log(convertDate(stat.time).getMonth());
+    
+ 
     window.chartColors = {
         red: 'rgb(255, 99, 132)',
         orange: 'rgb(255, 159, 64)',
@@ -13,11 +25,11 @@ db.collection("study").doc("test1").get().then(function (doc) {
         purple: 'rgb(153, 102, 255)',
         grey: 'rgb(201, 203, 207)'
     };
-    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var MONTHS = [convertDate(stat.time).getMonth()+1+"월", convertDate(stat.time).getDate()+"일",convertDate(stat.time).getHours()+"시" , convertDate(stat.time).getMinutes()+"분", 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var config = {
         type: 'line',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: [convertDate(stat.time).getMonth()+1+"월", convertDate(stat.time).getDate()+"일",convertDate(stat.time).getHours()+"시" , convertDate(stat.time).getMinutes()+"분", 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
                 backgroundColor: window.chartColors.red,
@@ -119,5 +131,26 @@ db.collection("study").doc("test1").get().then(function (doc) {
 
         window.myLine.update();
     });
+
+    document.getElementById('addStatus').addEventListener('click', function () {
+        config.data.labels.splice(-1, 1); // remove the label first
+
+        db.collection("study").doc(realtime.toString()).set({
+            status: {
+                temp: Math.floor(Math.random() * 10) + 1,
+                hum: Math.floor(Math.random() * 10) + 1,
+                time: realtime
+            }
+        })
+            .then(function () {
+                console.log("Document successfully written!");
+            })
+            .catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
+
+
+    });
+
 
 });
