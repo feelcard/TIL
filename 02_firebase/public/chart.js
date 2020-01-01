@@ -3,18 +3,36 @@
 var db = firebase.firestore();
 
 
-var startDate;
-var endDate;
 
-db.collection("study").where("time",">=",new Date('2019-11-30T00:00:00')).where("time","<=",new Date('2019-12-31T00:00:00')).get().then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+var setQuery = new Vue({
+    el: '#chartarea',
+    data: {
+        setSD:'',
+        setED:''
+    },
+    methods: {
+        callFirebase: function (){
+         
+            startdate = new Date(this.setSD+'T00:00:00');
+            enddate = new Date(this.setED+'T00:00:00');
+            console.log(startdate);
+            console.log(enddate);
+            db.collection("study").where("time", ">=", startdate).where("time", "<=", enddate).get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data().time.toDate());
+                });
+            })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                });
+            }
+        }
+
     });
-})
-.catch(function(error) {
-    console.log("Error getting documents: ", error);
-});
+
+
+
 
 function convertDate(timestamp) {
 
@@ -24,7 +42,7 @@ function convertDate(timestamp) {
 db.collection("study").doc("test1").get().then(function (doc) {
     var stat = doc.data().status;
     var realtime = new Date();
-  
+
     console.log(convertDate(stat.time).getMonth());
 
 
@@ -95,55 +113,6 @@ db.collection("study").doc("test1").get().then(function (doc) {
 
 
 
-
-    var colorNames = Object.keys(window.chartColors);
-    document.getElementById('addDataset').addEventListener('click', function () {
-        var colorName = colorNames[config.data.datasets.length % colorNames.length];
-        var newColor = window.chartColors[colorName];
-        var newDataset = {
-            label: 'Dataset ' + config.data.datasets.length,
-            backgroundColor: newColor,
-            borderColor: newColor,
-            data: [],
-            fill: false
-        };
-
-        for (var index = 0; index < config.data.labels.length; ++index) {
-            newDataset.data.push(randomScalingFactor());
-        }
-
-        config.data.datasets.push(newDataset);
-        window.myLine.update();
-    }); 
-
-    document.getElementById('addData').addEventListener('click', function () {
-        if (config.data.datasets.length > 0) {
-            var month = MONTHS[config.data.labels.length % MONTHS.length];
-            config.data.labels.push(month);
-
-            config.data.datasets.forEach(function (dataset) {
-                dataset.data.push(randomScalingFactor());
-            });
-
-            window.myLine.update();
-        }
-    });
-
-    document.getElementById('removeDataset').addEventListener('click', function () {
-        config.data.datasets.splice(0, 1);
-        window.myLine.update();
-    });
-
-    document.getElementById('removeData').addEventListener('click', function () {
-        config.data.labels.splice(-1, 1); // remove the label first
-
-        config.data.datasets.forEach(function (dataset) {
-            dataset.data.pop();
-        });
-
-        window.myLine.update();
-    });  
-
     document.getElementById('addStatus').addEventListener('click', function () {
         config.data.labels.splice(-1, 1); // remove the label first
         console.log("data input");
@@ -155,7 +124,7 @@ db.collection("study").doc("test1").get().then(function (doc) {
 
         })
             .then(function () {
-              
+
                 console.log("Document successfully written!");
             })
             .catch(function (error) {

@@ -22,15 +22,16 @@
 
 
   <style>
-    
+
   </style>
 
   <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
-<script src="/__/firebase/7.6.1/firebase-analytics.js"></script>
-<script src="./firebase.js"></script>
-<script src="./chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="/__/firebase/7.6.1/firebase-analytics.js"></script>
+  <script src="./firebase.js"></script>
+
 
 
 
@@ -159,20 +160,28 @@
 
   <!-- About Section -->
   <section class="page-section bg-primary text-white mb-0">
-    
-    <div style="margin : 0 auto; padding: 10px; width:75%; background-color: lightcyan;">
-      <canvas id="canvas" ></canvas>
-      <br>
-      <br>
-      <button class="btn btn-primary btn-xl" id="randomizeData">Randomize Data</button>
-      <button class="btn btn-primary btn-xl" id="addDataset">Add Dataset</button>
-      <button class="btn btn-primary btn-xl" id="removeDataset">Remove Dataset</button>
-      <button class="btn btn-primary btn-xl" id="addData">Add Data</button>
-      <button class="btn btn-primary btn-xl" id="removeData">Remove Data</button> 
-      <button class="btn btn-primary btn-xl" id="addStatus">Add Status</button>
-    
-    </div>
+
+    <div id="chartarea" style="margin : 0 auto; padding: 10px; width:75%; background-color: lightcyan;">
+      <h1 style="color: black;">기간 설정</h1>
    
+        <input v-model="setSD"  type="date">
+        
+        <h1 style="display: inline; color: black;"> ~ </h1>
+        <input  v-model="setED"  type="date" v-on:click="callFirebase(setSD,setED)">
+        
+
+
+      <br>
+      <p style="color: black;">setSD: {{ setSD }}</p> <p style="color: black;">setED: {{ setED }}</p>
+      <br>
+      <canvas id="canvas"></canvas>
+      <br>
+      <br>
+
+      <button class="btn btn-primary btn-xl" id="addStatus">Add Status</button>
+
+    </div>
+
   </section>
 
   <!-- Contact Section -->
@@ -516,7 +525,7 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/freelancer.min.js"></script>
-
+  <script src="./chart.js"></script>
   <script>
     var i = 0;
     $(document).ready(function () {
