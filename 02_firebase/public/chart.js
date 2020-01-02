@@ -13,11 +13,16 @@ var setQuery = new Vue({
     methods: {
         callFirebase: function (){
          
-            startdate = new Date(this.setSD+'T00:00:00');
-            enddate = new Date(this.setED+'T00:00:00');
-            console.log(startdate);
-            console.log(enddate);
-            db.collection("study").where("time", ">=", startdate).where("time", "<=", enddate).get().then(function (querySnapshot) {
+            let startdate = new Date(this.setSD+'T00:00:00.012Z');
+            startdate.setHours(startdate.getHours()+9);
+            let enddate = new Date(this.setED+'T00:00:00');
+            enddate.setHours(enddate.getHours()+9);
+            console.log(startdate.getTime());
+            console.log(enddate.toISOString().split('.',1)[0]);
+            db.collection("study").
+            where("time", ">=", new Date(startdate.toISOString().split('.',1)[0])).
+            where("time", "<=", new Date(enddate.toISOString().split('.',1)[0])).
+            get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data().time.toDate());

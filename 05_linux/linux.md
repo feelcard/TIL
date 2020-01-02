@@ -27,7 +27,7 @@ hostname -- 호스트 이름보기
 
 hostnamectl set-hostname 이름 --호스트 이름 설정
 
-gedit /etc/hosts --호스트 목록들 ip와 hostname입력
+gedit /etc/hosts --호스트 목록들 ip와 hostname입력 (vi 로도 수정가능)
 
 ♧(화면 청소는 clear 라고 소문자로 입력하면 됨 혹은 ctrl+l)
 
@@ -174,4 +174,20 @@ mount /dev/cdrom /root/mycdrom 메모리에 cdrom에 있는 정보를 root아래
 ## 4.2 DB PC 구축
 
 > tomcat을 설치한거처럼 오라클을 설치해준다. 설치가 끝나면 tomcat서버의 프로젝트파일(war파일)의 spring.xml(스프링 프레임워크가 아닌 다른 DB접속 환경이라면 DB정보가 담겨있는 파일을 수정해야한다.) 내부의 ip와 스키마 id/pw를 설정해준다.(추후 MariaDB에서도 해볼 예정)
+
+
+
+# 5.네트워크 용어
+
+## 5.1DNS
+
+> 경로
+
+
+
+## 5.2 도메인
+
+
+
+
 
