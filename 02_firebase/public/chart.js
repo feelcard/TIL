@@ -4,7 +4,7 @@ var db = firebase.firestore();
 
 
 
-var setQuery = new Vue({
+var datechart = new Vue({
     el: '#chartarea',
     data: {
         setSD:'',
@@ -13,15 +13,15 @@ var setQuery = new Vue({
     methods: {
         callFirebase: function (){
          
-            let startdate = new Date(this.setSD+'T00:00:00.012Z');
+            let startdate = new Date(this.setSD+'T00:00:00');
             startdate.setHours(startdate.getHours()+9);
             let enddate = new Date(this.setED+'T00:00:00');
-            enddate.setHours(enddate.getHours()+9);
+            enddate.setHours(enddate.getHours()+33);
             console.log(startdate.getTime());
             console.log(enddate.toISOString().split('.',1)[0]);
             db.collection("study").
             where("time", ">=", new Date(startdate.toISOString().split('.',1)[0])).
-            where("time", "<=", new Date(enddate.toISOString().split('.',1)[0])).
+            where("time", "<", new Date(enddate.toISOString().split('.',1)[0])).
             get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
                     // doc.data() is never undefined for query doc snapshots
@@ -46,7 +46,7 @@ function convertDate(timestamp) {
 
 db.collection("study").doc("test1").get().then(function (doc) {
     var stat = doc.data().status;
-    var realtime = new Date();
+    
 
     console.log(convertDate(stat.time).getMonth());
 
@@ -120,6 +120,7 @@ db.collection("study").doc("test1").get().then(function (doc) {
 
     document.getElementById('addStatus').addEventListener('click', function () {
         config.data.labels.splice(-1, 1); // remove the label first
+        var realtime = new Date();
         console.log("data input");
         db.collection("study").doc(realtime.toString()).set({
 
