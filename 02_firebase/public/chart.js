@@ -16,7 +16,8 @@ var datechart = new Vue({
     el: '#chartarea',
     data: {
         setSD: '',
-        setED: ''
+        setED: '',
+        check: true
     },
     methods: {
         callFirebase: function () {
@@ -124,17 +125,21 @@ var datechart = new Vue({
                    
                     querySnapshot.forEach(function (doc) {
 
-                        if (convertDate(doc.data().time).getDate() + '일 ' + convertDate(doc.data().time).getHours() + '시' === config.data.labels[config.data.labels.length - 1]) {
+                        if (convertDate(doc.data().time).getDate() + '일' === config.data.labels[config.data.labels.length - 1]) {
                             config.data.datasets[0].data[config.data.datasets[0].data.length - 1] += doc.data().temp;
                             count++;
                         }
+                        // else if(convertDate(doc.data().time).getDate() + '일'=== (enddate.getDate()-1)+'일')
+                        // {
+                        //     config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count
+                        // }
 
                         else {
                             if (count > 1) {
                                 config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count
                             }
 
-                            config.data.labels.push((convertDate(doc.data().time).getDate()) + '일 ' + convertDate(doc.data().time).getHours() + '시');
+                            config.data.labels.push((convertDate(doc.data().time).getDate()) + '일');
                             config.data.datasets[0].data.push(doc.data().temp);
                         }
                         console.log(JSON.stringify(config.data.labels));
@@ -158,6 +163,16 @@ var datechart = new Vue({
                 .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 });
+        },
+        dateCheck: function(){
+            let enddate = new Date(this.setED + 'T00:00:00');
+            if(enddate.getDate() >= new Date().getDate){
+                this.check =false;
+            }
+            else{
+                this.check =true;
+            }
+            return this.check;
         }
     }
 
