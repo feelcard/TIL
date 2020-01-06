@@ -128,11 +128,14 @@ var datechart = new Vue({
                         if (convertDate(doc.data().time).getDate() + '일' === config.data.labels[config.data.labels.length - 1]) {
                             config.data.datasets[0].data[config.data.datasets[0].data.length - 1] += doc.data().temp;
                             count++;
+                            console.log("curDate : " +convertDate(doc.data().time).getDate());
+                            console.log("enddate : " +enddate.getDate());
+                            if(convertDate(doc.data().time).getDate() === enddate.getDate()-1){
+                                console.log("Enddate");
+                            config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count;
+                            }
                         }
-                        // else if(convertDate(doc.data().time).getDate() + '일'=== (enddate.getDate()-1)+'일')
-                        // {
-                        //     config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count
-                        // }
+                      
 
                         else {
                             if (count > 1) {
@@ -142,8 +145,7 @@ var datechart = new Vue({
                             config.data.labels.push((convertDate(doc.data().time).getDate()) + '일');
                             config.data.datasets[0].data.push(doc.data().temp);
                         }
-                        console.log(JSON.stringify(config.data.labels));
-                        console.log(JSON.stringify(config.data.datasets));
+
                       
                     });
 
