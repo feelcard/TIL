@@ -47,7 +47,7 @@ var datechart = new Vue({
                         data: {
                             labels: [],
                             datasets: [{
-                                label: startdate.toDateString + '~' + enddate.toDateString,
+                                label: startdate.toDateString() + '~' + enddate.toDateString(),
                                 backgroundColor: window.chartColors.red,
                                 borderColor: window.chartColors.red,
                                 data: [
@@ -75,7 +75,7 @@ var datechart = new Vue({
                                     display: true,
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Date Time'
+                                        labelString: 'Date'
                                     }
                                 }],
                                 yAxes: [{
@@ -128,10 +128,9 @@ var datechart = new Vue({
                         if (convertDate(doc.data().time).getDate() + '일' === config.data.labels[config.data.labels.length - 1]) {
                             config.data.datasets[0].data[config.data.datasets[0].data.length - 1] += doc.data().temp;
                             count++;
-                            console.log("curDate : " +convertDate(doc.data().time).getDate());
-                            console.log("enddate : " +enddate.getDate());
+                          
                             if(convertDate(doc.data().time).getDate() === enddate.getDate()-1){
-                                console.log("Enddate");
+                              
                             config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count;
                             }
                         }
@@ -150,11 +149,14 @@ var datechart = new Vue({
                     });
 
                     var ctx = document.getElementById('canvas').getContext('2d');
+                    window.myLine = new Chart(ctx, config);
                     if( window.myLine == null){
+                        console.log("create chart")
                         window.myLine = new Chart(ctx, config);
                     }
                    
                     else{
+                        console.log("update chart")
                         window.myLine.destroy();
                         window.myLine = new Chart(ctx, config);
                     }
