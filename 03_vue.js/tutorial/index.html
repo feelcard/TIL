@@ -1,13 +1,29 @@
 <html>
     <head>
         <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="hooper.css"> 
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="hooper.min.js"></script>
     </head>
     <body>
         
-        <div id="app">
-            {{ message }}
-        </div>
+      <div id="app">
+        <hooper>
+          <slide>
+            slide 1
+          </slide>
+          <slide>
+            slide 2
+          </slide>
+          <slide>
+            slide 3
+          </slide>
+          <slide>
+            slide 4
+          </slide>
+        </hooper>
+      </div>
+      
 
         <div id="app-2">
             <span v-bind:title="message">

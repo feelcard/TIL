@@ -2,3 +2,22 @@ html, body {
     margin: 5px;
     padding: 0;
 }
+#app {
+    background: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  
+    .hooper-slide {
+      background-color: #62caaa;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 30px;
+      border-radius: 10px;
+    }
+  

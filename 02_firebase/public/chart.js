@@ -8,17 +8,19 @@ function convertDate(timestamp) {
 }
 
 
-
-
-
-
-var datechart = new Vue({
-    el: '#chartarea',
+new Vue({
+    el: '#hooper',
+    components: {
+        Hooper: window.Hooper.Hooper,
+        Slide: window.Hooper.Slide,
+        HooperNavigation: window.Hooper.Navigation,
+        HooperPagination: window.Hooper.Pagination
+    },
     data: {
         setSD: '',
-        setED: '',
-        check: true
+        setED: ''
     },
+
     methods: {
         callFirebase: function () {
 
@@ -88,8 +90,8 @@ var datechart = new Vue({
                             }
                         }
                     };
-                 
-                  
+
+
 
 
 
@@ -116,25 +118,25 @@ var datechart = new Vue({
                     });
 
                     var count = 1;
-                    if( config.data.labels != null){
+                    if (config.data.labels != null) {
                         config.data.labels = [];
                         config.data.datasets[0].data = [];
                         count = 1;
                     }
-                      
-                   
+
+
                     querySnapshot.forEach(function (doc) {
 
                         if (convertDate(doc.data().time).getDate() + '일' === config.data.labels[config.data.labels.length - 1]) {
                             config.data.datasets[0].data[config.data.datasets[0].data.length - 1] += doc.data().temp;
                             count++;
-                          
-                            if(convertDate(doc.data().time).getDate() === enddate.getDate()-1){
-                              
-                            config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count;
+
+                            if (convertDate(doc.data().time).getDate() === enddate.getDate() - 1) {
+
+                                config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count;
                             }
                         }
-                      
+
 
                         else {
                             if (count > 1) {
@@ -145,42 +147,31 @@ var datechart = new Vue({
                             config.data.datasets[0].data.push(doc.data().temp);
                         }
 
-                      
+
                     });
 
                     var ctx = document.getElementById('canvas').getContext('2d');
                     window.myLine = new Chart(ctx, config);
-                    if( window.myLine == null){
+                    if (window.myLine == null) {
                         console.log("create chart")
                         window.myLine = new Chart(ctx, config);
                     }
-                   
-                    else{
+
+                    else {
                         console.log("update chart")
                         window.myLine.destroy();
                         window.myLine = new Chart(ctx, config);
                     }
-                   
+
 
 
                 })
                 .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 });
-        },
-        dateCheck: function(){
-            let enddate = new Date(this.setED + 'T00:00:00');
-            if(enddate.getDate() >= new Date().getDate){
-                this.check =false;
-            }
-            else{
-                this.check =true;
-            }
-            return this.check;
         }
     }
-
-});
+})
 
 
 
