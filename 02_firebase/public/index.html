@@ -168,11 +168,10 @@
             <h1 style="display: inline; color: black;"> ~ </h1>
             <input v-model="setED" type="date">
             <input type ='button' v-on:click="callFirebase" value="Submit">
-            <p>{{setSD}}</p>
-            <p>{{setED}}</p>
+            <p style="color: red;">{{ error }}</p>
             <canvas id="canvas"></canvas>
 
-            <button class="btn btn-primary btn-xl" id="addStatus">Add Status</button>
+            <!-- <button class="btn btn-primary btn-xl" id="addStatus">Add Status</button> -->
           </div>
         </slide>
 
