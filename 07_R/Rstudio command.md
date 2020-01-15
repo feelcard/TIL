@@ -153,5 +153,17 @@ re(1)
 re(2)
 
 
+aggregate(en-class,dataframe,mean) # dataframe 생성 조건,대상,행위
+ apply(ss[,c(-1,-2)],1,mean,na.rm=T) # ss dataframe에 1행과 2행을 제외한것들의 평균을 내는데 NA는 제외해라 라는의미
+
+is.na(colname) == F # colname 중 값이 NA인것을 제외하는것
+
+dplyr
+
+filter()	지정한 조건식에 맞는 데이터 추출	subset()
+select()	열의 추출	data[, c(“Year”, “Month”)]
+mutate()	열 추가	transform()
+arrange()	정렬	order(), sort()
+summarise()	집계	aggregate()
 ```
 
