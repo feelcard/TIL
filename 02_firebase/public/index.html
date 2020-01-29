@@ -313,16 +313,14 @@
 
         <slide>
           <div style="margin : 0 auto; padding: 10px; width:75%; background-color: lightcyan;">
-            <h1 style="color: black;">기간 설정</h1>
+            <h1 style="color: black;">날짜 설정</h1>
+    
+            <input v-model="setD"  type="date">
+            <input type="button"  value = "불러오기" v-on:click="getOneDayValue()">
+            
+            <canvas id="canvas2"></canvas>
 
-            <input v-model="setSD" type="date">
-
-            <h1 style="display: inline; color: black;"> ~ </h1>
-            <input v-model="setED" type="date" v-on:click="callFirebase()">
-
-            <canvas id="canvas"></canvas>
-
-            <button class="btn btn-primary btn-xl" id="addStatus">Add Status</button>
+            <button class="btn btn-primary btn-xl" id="addStatus1">Add Status</button>
           </div>
         </slide>
         <hooper-navigation slot="hooper-addons"></hooper-navigation>
