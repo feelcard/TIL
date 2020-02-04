@@ -1,7 +1,9 @@
 
 
 var db = firebase.firestore();
-
+var psdataset={label:'',backgroundColor:'',data:[],borderColor:'',fill:true};
+var alldata=[];
+var alllabel=[];
 function convertDate(timestamp) {
 
     return new firebase.firestore.Timestamp(timestamp.seconds, timestamp.nanoseconds).toDate()
@@ -20,7 +22,7 @@ new Vue({
         setSD: '',
         setED: '',
         setD:'',
-        error: ''
+        error: '',
     },
 
     methods: {
@@ -33,9 +35,9 @@ new Vue({
             let enddate = new Date(this.setED + 'T00:00:00');
             enddate.setHours(enddate.getHours() + 33);
 
-            if (enddate.getDate() > realtime.getDate()) {
-                console.log(enddate.getDate() );
-                console.log( realtime.getDate() );
+            if (enddate.getTime() > realtime.getTime()) {
+                console.log(enddate.getTime() );
+                console.log( realtime.getTime() );
 
                 return this.error = '입력한 날짜가 올바르지 않습니다.'
             }
@@ -48,29 +50,26 @@ new Vue({
                     get().then(function (querySnapshot) {
 
 
-                        window.chartColors = {
-                            red: 'rgb(255, 99, 132)',
-                            orange: 'rgb(255, 159, 64)',
-                            yellow: 'rgb(255, 205, 86)',
-                            green: 'rgb(75, 192, 192)',
-                            blue: 'rgb(54, 162, 235)',
-                            purple: 'rgb(153, 102, 255)',
-                            grey: 'rgb(201, 203, 207)'
-                        };
+                        window.chartColors = [
+                            red= 'rgb(255, 99, 132)',
+                            orange= 'rgb(255, 159, 64)',
+                            yellow= 'rgb(255, 205, 86)',
+                            green= 'rgb(75, 192, 192)',
+                            blue= 'rgb(54, 162, 235)',
+                            purple= 'rgb(153, 102, 255)',
+                            grey= 'rgb(201, 203, 207)'
+                        ];
 
                         var config = {
                             type: 'line',
                             data: {
-                                labels: [],
-                                datasets: [{
-                                    label: startdate.toDateString() + '~' + enddate.toDateString(),
-                                    backgroundColor: window.chartColors.red,
-                                    borderColor: window.chartColors.red,
-                                    data: [
-
-                                    ],
-                                    fill: false,
-                                }]
+                                labels: ['Mon','Tus','Wed','Thr','Fri','Sat','Sun'],
+                                datasets:[{label:'2020년 1월 1째주',
+                                backgroundColor:window.chartColors[0],data:[20,21,24,25,24,18,21],borderColor:window.chartColors[0],fill:false},
+                                {label:'2020년 1월 2째주',
+                                backgroundColor:window.chartColors[1],data:[21,24,22,23,22,21,19],borderColor:window.chartColors[1],fill:false},
+                                {label:'2020년 1월 3째주',
+                                backgroundColor:window.chartColors[2],data:[23,20,23,24,25,26,25],borderColor:window.chartColors[2],fill:false}]
                             },
                             options: {
                                 responsive: true,
@@ -105,64 +104,48 @@ new Vue({
                             }
                         };
 
+                        var crancolor=Math.floor(Math.random()*6);
+                       
 
-
-                        // document.getElementById('addStatus').addEventListener('click', function () {
-                        //     var realtime = new Date();
-                        //     console.log("data input");
-                        //     db.collection("study").doc(realtime.toString()).set({
-
-                        //         temp: Math.floor(Math.random() * 10) + 1,
-                        //         hum: Math.floor(Math.random() * 10) + 1,
-                        //         time: realtime
-
-                        //     })
-                        //         .then(function () {
-
-                        //             console.log("Document successfully written!");
-                        //         })
-                        //         .catch(function (error) {
-                        //             console.error("Error writing document: ", error);
-                        //         });
-
-
-                        // });
-
-                        var count = 1;
-                        if (config.data.labels != null) {
-                            config.data.labels = [];
-                            config.data.datasets[0].data = [];
-                            count = 1;
-                        }
-
-
+                        var count = 0;
+                       
                         querySnapshot.forEach(function (doc) {
 
                             if (convertDate(doc.data().time).getDate() + '일' === config.data.labels[config.data.labels.length - 1]) {
-                                config.data.datasets[0].data[config.data.datasets[0].data.length - 1] += doc.data().inside_temp;
+                                psdataset.data[ psdataset.data.length - 1] += doc.data().inside_temp;
                                 count++;
 
                                 if (convertDate(doc.data().time).getDate() === enddate.getDate() - 1) {
 
-                                    config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count;
+                                    psdataset.data[ psdataset.data.length - 1] =psdataset.data[ psdataset.data.length - 1] / count;
                                 }
                             }
 
 
                             else {
                                 if (count > 1) {
-                                    config.data.datasets[0].data[config.data.datasets[0].data.length - 1] = config.data.datasets[0].data[config.data.datasets[0].data.length - 1] / count
+                                    psdataset.data[ psdataset.data.length - 1] = psdataset.data[ psdataset.data.length - 1] / count
                                 }
-
-                                config.data.labels.push((convertDate(doc.data().time).getDate()) + '일');
-                                config.data.datasets[0].data.push(doc.data().inside_temp);
+                               
+                                alllabel.push((convertDate(doc.data().time).getDate()) + '일');
+                                psdataset.data.push(doc.data().inside_temp);
                             }
 
 
                         });
+                        psdataset.label=startdate.toDateString()+'~'+enddate.toDateString();
+                        psdataset.backgroundColor=window.chartColors[crancolor];
+                        psdataset.borderColor=window.chartColors[crancolor];
+                        console.log(JSON.stringify(psdataset));
+                        alldata.push(psdataset);
+                        psdataset={label:'',backgroundColor:'',data:[],borderColor:'',fill:true};
+
+                        
+                       
+
+
 
                         var ctx = document.getElementById('canvas').getContext('2d');
-                        window.myLine = new Chart(ctx, config);
                         if (window.myLine == null) {
                             console.log("create chart")
                             window.myLine = new Chart(ctx, config);
@@ -170,8 +153,7 @@ new Vue({
 
                         else {
                             console.log("update chart")
-                            window.myLine.destroy();
-                            window.myLine = new Chart(ctx, config);
+                            window.myLine.update();
                         }
 
 
