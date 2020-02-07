@@ -88,11 +88,11 @@ ssh -i "yhsyhs121.pem" root@ec2- ....
 
 ### 2.2 브라우저로 접속
 
-![브라우저에서 터미널 연결1](C:\Users\student\Desktop\AWS image\브라우저에서 터미널 연결1.png)
+![브라우저에서 터미널 연결1](https://user-images.githubusercontent.com/57747689/74001470-10e88600-49af-11ea-8a55-f2690ca11cb9.png)
 
 EC2 화면에서 연결버튼을 누른다
 
-![브라우저에서 터미널 연결2](C:\Users\student\Desktop\AWS image\브라우저에서 터미널 연결2.png)
+![브라우저에서 터미널 연결2](https://user-images.githubusercontent.com/57747689/74001471-10e88600-49af-11ea-9df5-f52ed9aea3c7.png)
 
 인스턴스 연결을 선택하고 연결을 누른다 해당 화면은 인스턴스의 OS에 root 계정으로 들어간다는 뜻이다. 
 
