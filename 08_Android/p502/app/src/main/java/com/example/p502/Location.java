@@ -7,9 +7,12 @@ public class Location implements Parcelable {
     double leti;
     double longti;
 
+
     public Location(){
 
     }
+
+
 
     public Location(Parcel src){
     this.leti = src.readDouble();
@@ -17,6 +20,22 @@ public class Location implements Parcelable {
     }
     public Location(double leti, double longti) {
         this.leti = leti;
+        this.longti = longti;
+    }
+
+    public double getLeti() {
+        return leti;
+    }
+
+    public void setLeti(double leti) {
+        this.leti = leti;
+    }
+
+    public double getLongti() {
+        return longti;
+    }
+
+    public void setLongti(double longti) {
         this.longti = longti;
     }
 

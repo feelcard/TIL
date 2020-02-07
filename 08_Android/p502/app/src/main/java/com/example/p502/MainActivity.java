@@ -24,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.editText);
         editText2 = findViewById(R.id.editText2);
         progressDialog = new ProgressDialog(this);
+
+        if(SaveSharedPreference.getUserName(MainActivity.this).length() != 0) {
+            Intent intent =
+                    new Intent(getApplicationContext(),
+                            SecondActivity.class);
+
+            startActivity(intent);
+
+        }
     }
     public void login (View v) {
         String id = editText.getText().toString();
@@ -69,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.dismiss();
 
             if(s.trim().equals("1")) {
+                if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
+                    SaveSharedPreference.setUserName(MainActivity.this, editText.getText().toString());
 
                 Intent intent =
                         new Intent(getApplicationContext(),
